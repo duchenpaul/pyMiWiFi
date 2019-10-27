@@ -49,7 +49,7 @@ class MiWiFi(object):
     def get_key_deviceId(self):
         self.URL_MAIN_PAGE = "%s/cgi-bin/luci/web" % self.URL_ROOT
         try:
-            r = requests.get(self.URL_MAIN_PAGE)
+            r = requests.get(self.URL_MAIN_PAGE, timeout=5)
             pattern = r'''(?<=key: ')(.*)(?=')'''
             key = regex_find(pattern, r.text)[0]
             pattern = r'''(?<=var deviceId = ')(.*)(?=')'''
@@ -96,7 +96,7 @@ class MiWiFi(object):
         # print payload
 
         try:
-            r = requests.post(self.URL_LOGIN, data=payload)
+            r = requests.post(self.URL_LOGIN, data=payload, timeout=5)
             # print r.text
             stok = json.loads(r.text).get('url').split('=')[1].split('/')[0]
         except Exception as e:
@@ -117,7 +117,7 @@ class MiWiFi(object):
         if self.URL_DeviceListDaemon != None and self.cookies != None:
             try:
                 r = requests.get(self.URL_DeviceListDaemon,
-                                 cookies=self.cookies)
+                                 cookies=self.cookies, timeout=5)
                 # print json.dumps(json.loads(r.text), indent=4)
                 return json.loads(r.text).get('list')
             except Exception as e:
@@ -135,7 +135,7 @@ class MiWiFi(object):
         if self.URL_DeviceListDaemon != None and self.cookies != None:
             try:
                 r = requests.get('%s/xqnetwork/%s' %
-                                 (self.URL_ACTION, action), cookies=self.cookies)
+                                 (self.URL_ACTION, action), cookies=self.cookies, timeout=5)
                 return json.loads(r.text)
             except Exception as e:
                 raise
