@@ -38,7 +38,8 @@ class MiWiFi(object):
         self.cookies = None
 
         # 小米路由器首页
-        self.URL_ROOT = "http://miwifi.com"
+        # self.URL_ROOT = "http://miwifi.com"
+        self.URL_ROOT = "http://192.168.31.1"
         # 小米路由器登录页面
         self.URL_LOGIN = "%s/cgi-bin/luci/api/xqsystem/login" % self.URL_ROOT
         # 小米路由器当前设备清单页面，登录后取得 stok 值才能完成拼接
