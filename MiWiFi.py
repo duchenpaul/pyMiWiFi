@@ -45,25 +45,17 @@ class MiWiFi(object):
         self.URL_ACTION = None
         self.URL_DeviceListDaemon = None
 
-    def get_key(self):
+    def get_key_deviceId(self):
         self.URL_MAIN_PAGE = "%s/cgi-bin/luci/web" % self.URL_ROOT
         try:
             r = requests.get(self.URL_MAIN_PAGE)
             pattern = r'''(?<=key: ')(.*)(?=')'''
             key = regex_find(pattern, r.text)[0]
-        except Exception as e:
-            raise
-        return key
-
-    def get_deviceId(self):
-        self.URL_MAIN_PAGE = "%s/cgi-bin/luci/web" % self.URL_ROOT
-        try:
-            r = requests.get(self.URL_MAIN_PAGE)
             pattern = r'''(?<=var deviceId = ')(.*)(?=')'''
             deviceId = regex_find(pattern, r.text)[0]
         except Exception as e:
             raise
-        return deviceId
+        return key, deviceId
 
     def nonceCreat(self, miwifi_deviceId):
         """
@@ -95,8 +87,7 @@ class MiWiFi(object):
         docstring for login()
         登录小米路由器，并取得对应的 cookie 和用于拼接 URL 所需的 stok
         """
-        key = self.get_key()
-        deviceId = self.get_deviceId()
+        key, deviceId = self.get_key_deviceId()
         nonce = self.nonceCreat(deviceId)
         password = self.oldPwd(password, key)
         payload = {'username': 'admin', 'logtype': '2',
