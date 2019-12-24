@@ -106,7 +106,7 @@ class MiWiFi(object):
         r.cookies.set_cookie(guid_cookie)
         self.stok = stok
         self.cookies = r.cookies
-        print(r.cookies)
+        # print(r.cookies)
         self.URL_ACTION = "%s/cgi-bin/luci/;stok=%s/api" % (
             self.URL_ROOT, self.stok)
         self.URL_DeviceListDaemon = "%s/xqsystem/device_list" % self.URL_ACTION
