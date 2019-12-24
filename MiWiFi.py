@@ -102,6 +102,7 @@ class MiWiFi(object):
         except Exception as e:
             raise
 
+        r.cookies.create_cookie(name='__guid',value='86847064.4146078363660605400.{}.557'.format(time.time()*1000))
         self.stok = stok
         self.cookies = r.cookies
         print(r.cookies)
