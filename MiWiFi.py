@@ -27,9 +27,9 @@ class MiWiFi(object):
     docstring for MiWiFi
     """
 
-    def __init__(self):
+    def __init__(self, host):
         super(MiWiFi, self).__init__()
-
+        self.host = host
         self.deviceId = None
         self.type = '0'
         self.nonce = None
@@ -39,7 +39,7 @@ class MiWiFi(object):
 
         # 小米路由器首页
         # self.URL_ROOT = "http://miwifi.com"
-        self.URL_ROOT = "http://192.168.31.1"
+        self.URL_ROOT = "http://" + host
         # 小米路由器登录页面
         self.URL_LOGIN = "%s/cgi-bin/luci/api/xqsystem/login" % self.URL_ROOT
         # 小米路由器当前设备清单页面，登录后取得 stok 值才能完成拼接
@@ -104,6 +104,7 @@ class MiWiFi(object):
 
         self.stok = stok
         self.cookies = r.cookies
+        print(r.cookies)
         self.URL_ACTION = "%s/cgi-bin/luci/;stok=%s/api" % (
             self.URL_ROOT, self.stok)
         self.URL_DeviceListDaemon = "%s/xqsystem/device_list" % self.URL_ACTION
@@ -146,7 +147,7 @@ class MiWiFi(object):
 
 
 if __name__ == '__main__':
-    miwifi = MiWiFi()
+    miwifi = MiWiFi('192.168.31.1')
     # deviceId = ''
     password = '123456789'
     stok, cookies = miwifi.login(password)
